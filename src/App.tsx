@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import {useUnit} from "effector-react";
+import $store, {addTodo, setNewTodo} from './store'
+const App = () => {
+    const store = useUnit($store)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <p>TODO</p>
+          <input
+              placeholder='New Todo'
+              value={store.newTodo}
+              onChange={(e) => setNewTodo(e.target.value)}
+          />
+          <button onClick={()=> addTodo()}>add Todo</button>
+
+          <div>
+              {store.todos.map((todo: {id: number, text: string}) => (
+                  <div key={todo.id}>
+                      <input type="checkbox"/>
+                      <input value={todo.text}/>
+                      <button>delete</button>
+                  </div>
+              ))}
+          </div>
+      </div>
   );
-}
+};
 
 export default App;
