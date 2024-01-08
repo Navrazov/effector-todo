@@ -53,3 +53,15 @@ export default createStore<Store>({
     newTodo: '',
     todos: addTodoList(state.todos, state.newTodo)
 }))
+.on(update, (state, {id, text}) => ({
+    ...state,
+    todos: updateTodo(state.todos, id, text)
+}))
+.on(toggle, (state, id) => ({
+    ...state,
+    todos: toggleTodo(state.todos, id)
+}))
+.on(remove, (state, id) => ({
+    ...state,
+    todos: removeTodo(state.todos, id)
+}))

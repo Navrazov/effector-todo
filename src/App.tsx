@@ -1,6 +1,6 @@
 import React from 'react';
 import {useUnit} from "effector-react";
-import $store, {addTodo, setNewTodo} from './store'
+import $store, {addTodo, remove, setNewTodo, toggle, update} from './store'
 const App = () => {
     const store = useUnit($store)
   return (
@@ -14,11 +14,20 @@ const App = () => {
           <button onClick={()=> addTodo()}>add Todo</button>
 
           <div>
-              {store.todos.map((todo: {id: number, text: string}) => (
+              {store.todos.map((todo) => (
                   <div key={todo.id}>
-                      <input type="checkbox"/>
-                      <input value={todo.text}/>
-                      <button>delete</button>
+                      <input
+                          type="checkbox"
+                          onClick={() => toggle(todo.id)}
+                          checked={todo.done}
+                      />
+                      <input
+                          value={todo.text}
+                          onChange={(e) => update({id: todo.id, text: e.target.value})}
+                      />
+                      <button onClick={()=> remove(todo.id)}>
+                          delete
+                      </button>
                   </div>
               ))}
           </div>
